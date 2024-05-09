@@ -1,37 +1,69 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-    $to = "rockybd1995@gmail.com";
-    $from = $_REQUEST['email'];
-    $name = $_REQUEST['name'];
-    $subject = $_REQUEST['subject'];
-    $number = $_REQUEST['number'];
-    $cmessage = $_REQUEST['message'];
+require 'vendor/autoload.php';
 
-    $headers = "From: $from";
-	$headers = "From: " . $from . "\r\n";
-	$headers .= "Reply-To: ". $from . "\r\n";
-	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+$errors = array(); // Array to hold validation errors
+$data = array(); // Array to hold data to be sent back
 
-    $subject = "You have a message from your Bitmap Photography.";
+// Validate form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate name
+    if (empty($_POST['name'])) {
+        $errors['name'] = 'Please enter your name.';
+    }
 
-    $logo = 'img/logo.png';
-    $link = '#';
+    // Validate email
+    if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Please enter a valid email address.';
+    }
 
-	$body = "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><title>Express Mail</title></head><body>";
-	$body .= "<table style='width: 100%;'>";
-	$body .= "<thead style='text-align: center;'><tr><td style='border:none;' colspan='2'>";
-	$body .= "<a href='{$link}'><img src='{$logo}' alt=''></a><br><br>";
-	$body .= "</td></tr></thead><tbody><tr>";
-	$body .= "<td style='border:none;'><strong>Name:</strong> {$name}</td>";
-	$body .= "<td style='border:none;'><strong>Email:</strong> {$from}</td>";
-	$body .= "</tr>";
-	$body .= "<tr><td style='border:none;'><strong>Subject:</strong> {$subject}</td></tr>";
-	$body .= "<tr><td></td></tr>";
-	$body .= "<tr><td colspan='2' style='border:none;'>{$cmessage}</td></tr>";
-	$body .= "</tbody></table>";
-	$body .= "</body></html>";
+    // Validate subject
+    if (empty($_POST['subject'])) {
+        $errors['subject'] = 'Please enter the subject.';
+    }
 
-    $send = mail($to, $subject, $body, $headers);
+    // Validate message
+    if (empty($_POST['message'])) {
+        $errors['message'] = 'Please enter your message.';
+    }
 
-?>
+    if (empty($errors)) {
+        $mail = new PHPMailer;
+
+        $mail->isSMTP();
+        $mail->Host = 'smtp.titan.email'; 
+		$mail->Port = 465;                   
+		$mail->SMTPAuth = true;                               
+		$mail->Username = 'info@sleepinggiantanimalclinic.online';                
+		$mail->Password = '@sleepinggiantanimalclinic';                           
+		$mail->SMTPSecure = 'ssl'; 
+
+        $mail->From = 'info@sleepinggiantanimalclinic.online';
+        $mail->FromName = $_POST['name'];
+        $mail->addAddress('info@sleepinggiantanimalclinic.online');
+
+        $mail->isHTML(true);
+        $mail->Subject = 'You have a message from your Vet Site.';
+        $cmessage = $_POST['message'].'<br><br>You can contact me ('.$_POST['name'].') via my email, '.$_POST['email'];
+        $mail->Body = $cmessage;
+
+        if (!$mail->send()) {
+            $errors['mail'] = 'Message could not be sent.';
+        } else {
+            $data['success'] = true;
+            $data['message'] = 'Message has been sent.';
+        }
+    }
+}
+
+// Pass errors and data to the page
+$data['errors'] = $errors;
+
+// Convert data to JSON format
+$jsonData = json_encode($data);
+
+// Redirect back to the form page with the data as query parameters
+header('Location: contact.php?data=' . urlencode($jsonData));
+exit();

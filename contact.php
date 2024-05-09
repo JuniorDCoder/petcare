@@ -1,22 +1,26 @@
+<?php
+$jsonData = $_GET['data'] ?? null;
+$data = json_decode($jsonData, true);
+
+?>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Services </title>
+    <title>Contact Us </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <l<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-    <!-- CSS here -->
+   <!-- CSS here -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/slicknav.css">
-    <link rel="stylesheet" href="assets/css/flaticon.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
     <link rel="stylesheet" href="assets/css/themify-icons.css">
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
@@ -83,123 +87,111 @@
         </div>
         <!-- Header End -->
     </header>
-    <main> 
-        <!-- Hero Area Start -->
-        <div class="slider-area2 slider-height2 d-flex align-items-center">
+    <main>
+         <!-- Hero Area Start -->
+         <div class="slider-area2 slider-height2 d-flex align-items-center">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center pt-50">
-                            <h2>Services</h2>
+                            <h2>Contact US</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Hero Area End -->
-        <!--? Our Services Start -->
-        <div class="our-services section-padding30">
-            <div class="container">
-                <div class="row justify-content-sm-center">
-                    <div class="cl-xl-7 col-lg-8 col-md-10">
-                        <!-- Section Tittle -->
-                        <div class="section-tittle text-center mb-70">
-                            <span>Our Professional Services</span>
-                            <h2>Best Pet Care Services</h2>
-                        </div> 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animal-kingdom"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Boarding</a></h5>
-                                <p>We provide a safe, comfortable, and fun environment for your pet when you're away.</p>
-                            </div>
+        <!-- ================ contact section start ================= -->
+        <section class="contact-section">
+                <div class="container">
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="contact-title">Get in Touch</h2>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animals"></span>
+                        <div class="col-lg-8">
+                        <form class="form-contact contact_form" action="contact_process.php" method="post">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder="Enter Message"></textarea>
+                                    </div>
+                                    <span class="text-danger error-message" id="message-error"><?php if (isset($data['errors']['message'])) {
+                                        echo $data['errors']['message'];
+                                    }?>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
+                                    </div>
+                                    <span class="text-danger error-message" id="name-error">
+                                        <?php if (isset($data['errors']['name'])) {
+                                            echo $data['errors']['name'];
+                                        }?>
+                                    </span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
+                                    </div>
+                                    <span class="text-danger error-message" id="email-error">
+                                        <?php if (isset($data['errors']['email'])) {
+                                            echo $data['errors']['email'];
+                                        }?>
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
+                                    </div>
+                                    <span class="text-danger error-message" id="subject-error">
+                                        <?php if (isset($data['errors']['subject'])) {
+                                            echo $data['errors']['subject'];
+                                        }?>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Treatment</a></h5>
-                                <p>Our experienced vets provide comprehensive treatment services to keep your pet healthy.</p>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="button button-contactForm boxed-btn" id="submit-btn">Send</button>
                             </div>
+                            <div id="success-message" class="text-success">
+                                <?php
+                                if (isset($data['success']) && $data['success']) {
+                                    echo $data['message'];
+                                }
+                                ?>
+                            </div>
+                        </form>
+
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animals-1"></span>
+                        <div class="col-lg-3 offset-lg-1">
+                            <div class="media contact-info">
+                                <span class="contact-info__icon"><i class="ti-home"></i></span>
+                                <div class="media-body">
+                                    <h3>Worldwide.</h3>
+                                    <!-- <p>Rosemead, CA 91770</p> -->
+                                </div>
                             </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Vaccinations</a></h5>
-                                <p>We offer a variety of vaccinations to protect your pet from common diseases.</p>
+                            <div class="media contact-info">
+                                <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                                <div class="media-body">
+                                    <!-- <h3>+1 253 565 2365</h3> -->
+                                    <p>Mon to Fri 9am to 6pm</p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animals"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Treatment</a></h5>
-                                <p>Our experienced vets provide comprehensive treatment services to keep your pet healthy.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animals-1"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Vaccinations</a></h5>
-                                <p>We offer a variety of vaccinations to protect your pet from common diseases.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-services text-center mb-30">
-                            <div class="services-ion">
-                                <span class="flaticon-animal-kingdom"></span>
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Pet Boarding</a></h5>
-                                <p>We provide a safe, comfortable, and fun environment for your pet when you're away.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Our Services End -->
-        <!--? contact-animal-owner Start -->
-        <div class="contact-animal-owner section-bg" data-background="assets/img/gallery/section_bg04.png">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="contact_text text-center">
-                            <div class="section_title text-center">
-                                <h3>Any time you can call us!</h3>
-                                <p>Because we know that even the best technology is only as good as the people behind it. 24/7 tech support.</p>
-                            </div>
-                            <div class="contact_btn d-flex align-items-center justify-content-center">
-                                <a href="contact.php" class="btn white-btn">Contact Us</a>
-                                <!-- <p>Or<a href="#"> +880 4664 216</a></p> -->
+                            <div class="media contact-info">
+                                <span class="contact-info__icon"><i class="ti-email"></i></span>
+                                <div class="media-body">
+                                    <h3>info@sleepinggiantanimalclinic.online</h3>
+                                    <p>Send us your query anytime!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- contact-animal-owner End -->
+            </section>
+        <!-- ================ contact section end ================= -->
     </main>
     <footer>
         <!-- Footer Start-->
@@ -214,8 +206,8 @@
                                  <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
                              </div>
                              <div class="footer-tittle">
-                                <div class="footer-pera">
-                                    <p>Providing the best care for your pets, because they are family too.</p>
+                                 <div class="footer-pera">
+                                     <p>Providing the best care for your pets, because they are family too.</p>
                                 </div>
                              </div>
                              <!-- social -->
@@ -250,6 +242,8 @@
                                     <li><a href="#">Pet Boarding</a></li>
                                     <li><a href="#">Pet Treatment</a></li>
                                     <li><a href="#">Vaccincations</a></li>
+                                    <!-- <li><a href="#">Floor Cleaning</a></li>
+                                    <li><a href="#">Apartment Cleaning</a></li> -->
                                 </ul>
                             </div>
                         </div>
@@ -259,9 +253,8 @@
                             <div class="footer-tittle">
                                 <h4>Get in Touch</h4>
                                 <ul>
-                                 
-                                 <li><a href="#"> info@sleepinggiantanimalclinic.online</a></li>
-                                 <li><a href="#">Worldwide</a></li>
+                                    <li><a href="#"> info@sleepinggiantanimalclinic.online</a></li>
+                                    <li><a href="#">Worldwide</a></li>
                              </ul>
                             </div>
                         </div>
@@ -276,7 +269,7 @@
                      <div class="row d-flex align-items-center">
                          <div class="col-xl-12 ">
                              <div class="footer-copy-right text-center">
-                                 <p><p>
+                                <p>
                                     Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
                                 </p>
                              </div>
@@ -294,36 +287,36 @@
 
     <!-- JS here -->
 
-        <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
-		<!-- Jquery, Popper, Bootstrap -->
-		<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
-        <script src="./assets/js/popper.min.js"></script>
-        <script src="./assets/js/bootstrap.min.js"></script>
-	    <!-- Jquery Mobile Menu -->
-        <script src="./assets/js/jquery.slicknav.min.js"></script>
+    <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/popper.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="./assets/js/jquery.slicknav.min.js"></script>
 
-		<!-- Jquery Slick , Owl-Carousel Plugins -->
-        <script src="./assets/js/owl.carousel.min.js"></script>
-        <script src="./assets/js/slick.min.js"></script>
-		<!-- One Page, Animated-HeadLin -->
-        <script src="./assets/js/wow.min.js"></script>
-		<script src="./assets/js/animated.headline.js"></script>
-        <script src="./assets/js/jquery.magnific-popup.js"></script>
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="./assets/js/owl.carousel.min.js"></script>
+    <script src="./assets/js/slick.min.js"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="./assets/js/wow.min.js"></script>
+    <script src="./assets/js/animated.headline.js"></script>
+    
+    <!-- Nice-select, sticky -->
+    <script src="./assets/js/jquery.nice-select.min.js"></script>
+    <script src="./assets/js/jquery.sticky.js"></script>
+    <script src="./assets/js/jquery.magnific-popup.js"></script>
 
-		<!-- Nice-select, sticky -->
-        <script src="./assets/js/jquery.nice-select.min.js"></script>
-		<script src="./assets/js/jquery.sticky.js"></script>
-        
-        <!-- contact js -->
-        <script src="./assets/js/contact.js"></script>
-        <script src="./assets/js/jquery.form.js"></script>
-        <script src="./assets/js/jquery.validate.min.js"></script>
-        <script src="./assets/js/mail-script.js"></script>
-        <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
-        <script src="./assets/js/plugins.js"></script>
-        <script src="./assets/js/main.js"></script>
-        
+    <!-- contact js -->
+    <!-- <script src="./assets/js/contact.js"></script>
+    <script src="./assets/js/jquery.form.js"></script>
+    <script src="./assets/js/jquery.validate.min.js"></script>
+    <script src="./assets/js/mail-script.js"></script>
+    <script src="./assets/js/jquery.ajaxchimp.min.js"></script> -->
+    
+    <!-- Jquery Plugins, main Jquery -->	
+    <script src="./assets/js/plugins.js"></script>
+    <script src="./assets/js/main.js"></script>
+
     </body>
 </html>
